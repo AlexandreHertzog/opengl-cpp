@@ -9,7 +9,7 @@ namespace opengl_cpp {
 
 shader_t::shader_t(gl_t &gl, shader_type_t type, const char *source) : m_gl(gl), m_id(gl.new_shader(type)) {
     if (source != nullptr) {
-        compile(source, true);
+        compile(source);
     }
 }
 
@@ -25,7 +25,7 @@ shader_t::shader_t(gl_t &gl, shader_type_t type, const std::filesystem::path &sh
     std::string code = shader_stream.str();
 
     m_id = m_gl.new_shader(type);
-    compile(code.c_str(), false);
+    compile(code.c_str());
 }
 
 shader_t::shader_t(shader_t &&other) noexcept : m_gl(other.m_gl) {
@@ -53,25 +53,27 @@ const id_shader_t &shader_t::get_id() const {
     return m_id;
 }
 
-void shader_t::compile(const char *source, bool free_on_error) {
+void shader_t::compile(const char *source) {
     assert(nullptr != source);
     assert(m_id);
 
     m_gl.set_sources(*this, 1, &source);
 
+    std::string error_message;
+
     const auto err = m_gl.compile(*this);
-    if (error_t::no_error != err) {
-        throw std::runtime_error("Error compiling shader: " + to_string(err));
+    if (error_t::no_error == err) {
+        const auto success = m_gl.get_parameter(*this, shader_parameter_t::compile_status);
+        if (GL_FALSE == success) {
+            error_message = m_gl.get_info_log(*this);
+        }
+    } else {
+        error_message = "Error compiling shader: " + to_string(err);
     }
 
-    const auto success = m_gl.get_parameter(*this, shader_parameter_t::compile_status);
-    if (GL_FALSE == success) {
-        const auto log = m_gl.get_info_log(*this);
-        if (free_on_error) {
-            destroy();
-        }
-
-        throw std::runtime_error(log);
+    if (!error_message.empty()) {
+        destroy();
+        throw std::runtime_error(error_message);
     }
 }
 

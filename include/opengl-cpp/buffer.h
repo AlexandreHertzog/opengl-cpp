@@ -93,4 +93,4 @@ class buffer_t {
 
 std::ostream &operator<<(std::ostream &s, const buffer_t &b);
 
-} // namespace opengl_wrapper
+} // namespace opengl_cpp

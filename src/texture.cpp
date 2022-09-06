@@ -1,5 +1,12 @@
 #include "texture.h"
 
+namespace {
+
+constexpr auto null_id = 0;
+constexpr auto null_unit = -1;
+
+} // namespace
+
 namespace opengl_cpp {
 
 texture_t::texture_t(gl_t &gl, int unit, texture_target_t target, id_texture_t id)
@@ -16,9 +23,11 @@ texture_t::texture_t(texture_t &&other) noexcept : m_gl(other.m_gl) {
         destroy();
     }
 
-    std::swap(m_id, other.m_id);
-    std::swap(m_target, other.m_target);
-    std::swap(m_unit, other.m_unit);
+    m_id = std::move(other.m_id);
+    m_target = other.m_target;
+    other.m_target = texture_target_t::undefined;
+    m_unit = other.m_unit;
+    other.m_unit = null_unit;
 }
 
 texture_t::~texture_t() {
@@ -32,9 +41,11 @@ texture_t &texture_t::operator=(texture_t &&other) noexcept {
         destroy();
     }
 
-    std::swap(m_id, other.m_id);
-    std::swap(m_target, other.m_target);
-    std::swap(m_unit, other.m_unit);
+    m_id = std::move(other.m_id);
+    m_target = other.m_target;
+    other.m_target = texture_target_t::undefined;
+    m_unit = other.m_unit;
+    other.m_unit = null_unit;
     return *this;
 }
 
@@ -75,9 +86,9 @@ int texture_t::get_unit() const {
 void texture_t::destroy() {
     assert(m_id);
     m_gl.destroy(1, &m_id);
-    m_id = 0;
+    m_id = null_id;
     m_target = texture_target_t::undefined;
-    m_unit = -1;
+    m_unit = null_unit;
 }
 
 std::ostream &operator<<(std::ostream &os, const texture_t &t) {

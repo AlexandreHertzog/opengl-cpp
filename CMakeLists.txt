@@ -21,3 +21,5 @@ target_include_directories(opengl-cpp
         )
 
 target_link_libraries(opengl-cpp PUBLIC glad glm PRIVATE glfw)
+
+add_subdirectory(test)

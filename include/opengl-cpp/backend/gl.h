@@ -2,6 +2,7 @@
 
 #include "opengl-cpp/enumerates.h"
 #include "opengl-cpp/identifier_t.h"
+#include <array>
 #include <glm/glm.hpp>
 #include <string>
 
@@ -122,6 +123,30 @@ class gl_t {
     virtual id_shader_t new_shader(shader_type_t type) = 0;
 
     /**
+     * @brief generate buffer object names
+     * https://registry.khronos.org/OpenGL-Refpages/gl4/html/glGenBuffers.xhtml
+     * @param n Specifies the number of buffer object names to be generated.
+     * @return Generated buffer object.
+     */
+    virtual std::vector<id_buffer_t> new_buffers(size_t n) = 0;
+
+    /**
+     * @brief generate texture_coord names
+     * https://registry.khronos.org/OpenGL-Refpages/gl4/html/glGenTextures.xhtml
+     * @param n Specifies the number of texture_coord names to be generated.
+     * @return Generated textures.
+     */
+    virtual std::vector<id_texture_t> new_textures(size_t n) = 0;
+
+    /**
+     * @brief generate vertex array object names
+     * https://registry.khronos.org/OpenGL-Refpages/gl4/html/glGenVertexArrays.xhtml
+     * @param amount Specifies the number of vertex array object names to generate.
+     * @return Vertex vector with indices.
+     */
+    [[nodiscard]] virtual std::vector<id_vertex_array_t> new_vertex_arrays(size_t amount) = 0;
+
+    /**
      * @brief delete named buffer objects.
      * https://registry.khronos.org/OpenGL-Refpages/gl4/html/glDeleteBuffers.xhtml
      * @param n Specifies the number of buffer objects to be deleted.
@@ -196,30 +221,6 @@ class gl_t {
     virtual void enable_vertex_attrib_array(unsigned index) = 0;
 
     /**
-     * @brief generate buffer object names
-     * https://registry.khronos.org/OpenGL-Refpages/gl4/html/glGenBuffers.xhtml
-     * @param n Specifies the number of buffer object names to be generated.
-     * @return Generated buffer object.
-     */
-    virtual std::vector<id_buffer_t> new_buffers(size_t n) = 0;
-
-    /**
-     * @brief generate texture_coord names
-     * https://registry.khronos.org/OpenGL-Refpages/gl4/html/glGenTextures.xhtml
-     * @param n Specifies the number of texture_coord names to be generated.
-     * @return Generated textures.
-     */
-    virtual std::vector<id_texture_t> new_textures(size_t n) = 0;
-
-    /**
-     * @brief generate vertex array object names
-     * https://registry.khronos.org/OpenGL-Refpages/gl4/html/glGenVertexArrays.xhtml
-     * @param amount Specifies the number of vertex array object names to generate.
-     * @return Vertex vector with indices.
-     */
-    [[nodiscard]] virtual std::vector<id_vertex_array_t> new_vertex_arrays(size_t amount) = 0;
-
-    /**
      * @brief generate mipmaps for a specified texture_coord object
      * https://registry.khronos.org/OpenGL-Refpages/gl4/html/glGenerateMipmap.xhtml
      * @param t Texture to have its mipmap generated.
@@ -235,6 +236,14 @@ class gl_t {
     virtual std::string get_info_log(const program_t &p) = 0;
 
     /**
+     * @brief Returns the information log for a shader object
+     * https://registry.khronos.org/OpenGL-Refpages/gl4/html/glGetShaderInfoLog.xhtml
+     * @param s Specifies the shader object whose information log is to be queried.
+     * @return Information log.
+     */
+    virtual std::string get_info_log(const shader_t &s) = 0;
+
+    /**
      * @brief Returns a parameter from a program object
      * https://registry.khronos.org/OpenGL-Refpages/gl4/html/glGetProgram.xhtml
      * @param p Specifies the program object to be queried.
@@ -248,14 +257,6 @@ class gl_t {
      * @return Requested object parameter.
      */
     virtual int get_parameter(const program_t &p, program_parameter_t param) = 0;
-
-    /**
-     * @brief Returns the information log for a shader object
-     * https://registry.khronos.org/OpenGL-Refpages/gl4/html/glGetShaderInfoLog.xhtml
-     * @param s Specifies the shader object whose information log is to be queried.
-     * @return Information log.
-     */
-    virtual std::string get_info_log(const shader_t &s) = 0;
 
     /**
      * @brief Returns a parameter from a shader object

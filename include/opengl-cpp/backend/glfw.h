@@ -24,7 +24,7 @@ class glfw_t {
      * @return The handle of the created window, or NULL if an error occurred.
      */
     virtual GLFWwindow *create_window(int width, int height, const char *title, GLFWmonitor *monitor,
-                                           GLFWwindow *share) = 0;
+                                      GLFWwindow *share) = 0;
 
     /**
      * @brief This function destroys the specified window and its context.
@@ -76,8 +76,7 @@ class glfw_t {
      * @param cbfun The new callback, or NULL to remove the currently set callback.
      * @return The previously set callback, or NULL if no callback was set or an error occurred.
      */
-    virtual GLFWframebuffersizefun set_framebuffer_size_callback(GLFWwindow *window,
-                                                                      GLFWframebuffersizefun cbfun) = 0;
+    virtual GLFWframebuffersizefun set_framebuffer_size_callback(GLFWwindow *window, GLFWframebuffersizefun cbfun) = 0;
 
     /**
      * @brief This function sets an input mode option for the specified window. See

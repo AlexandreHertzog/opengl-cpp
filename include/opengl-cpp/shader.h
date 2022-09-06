@@ -64,7 +64,7 @@ class shader_t {
     gl_t &m_gl;
     id_shader_t m_id;
 
-    void compile(const char *source, bool free_on_error);
+    void compile(const char *source);
     void destroy();
 };
 

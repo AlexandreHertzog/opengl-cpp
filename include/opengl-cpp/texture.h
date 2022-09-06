@@ -88,4 +88,4 @@ class texture_t {
 
 std::ostream &operator<<(std::ostream &os, const texture_t &t);
 
-} // namespace opengl_wrapper
+} // namespace opengl_cpp
