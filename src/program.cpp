@@ -49,7 +49,10 @@ void program_t::add_shader(shader_t shader) {
 void program_t::link() {
     assert(m_id);
 
-    m_gl.link(*this);
+    const auto err = m_gl.link(*this);
+    if (error_t::no_error != err) {
+        throw std::runtime_error("Error on program link: " + std::to_string(static_cast<int>(err)));
+    }
 
     const auto success = m_gl.get_parameter(*this, program_parameter_t::link_status);
     if (GL_FALSE == success) {

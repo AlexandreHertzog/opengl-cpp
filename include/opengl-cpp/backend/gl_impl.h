@@ -38,7 +38,7 @@ class gl_impl_t : public gl_t {
     std::string get_info_log(const program_t &p) override;
     int get_parameter(const program_t &p, program_parameter_t param) override;
     int get_uniform_location(const program_t &p, const char *name) override;
-    void link(const program_t &p) override;
+    error_t link(const program_t &p) override;
     void use(const program_t &p) override;
     void set_uniform(int location, float v0) override;
     void set_uniform(int location, int v0) override;

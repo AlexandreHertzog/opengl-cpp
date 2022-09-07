@@ -182,8 +182,9 @@ int gl_impl_t::get_uniform_location(const program_t &p, const char *name) {
     return glGetUniformLocation(p.get_id(), name);
 }
 
-void gl_impl_t::link(const program_t &p) {
+error_t gl_impl_t::link(const program_t &p) {
     glLinkProgram(p.get_id());
+    return static_cast<error_t>(glGetError());
 }
 
 void gl_impl_t::polygon_mode(polygon_mode_t mode) {

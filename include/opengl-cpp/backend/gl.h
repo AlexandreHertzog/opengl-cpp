@@ -282,7 +282,7 @@ class gl_t {
      * https://registry.khronos.org/OpenGL-Refpages/gl4/html/glLinkProgram.xhtml
      * @param p Specifies the handle of the program object to be linked.
      */
-    virtual void link(const program_t &p) = 0;
+    virtual error_t link(const program_t &p) = 0;
 
     /**
      * @brief select a polygon rasterization mode. See

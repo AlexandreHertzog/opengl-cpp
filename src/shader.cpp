@@ -66,6 +66,9 @@ void shader_t::compile(const char *source) {
         const auto success = m_gl.get_parameter(*this, shader_parameter_t::compile_status);
         if (GL_FALSE == success) {
             error_message = m_gl.get_info_log(*this);
+            if (error_message.empty()) {
+                error_message = "Shader compilation failed with unspecified error";
+            }
         }
     } else {
         error_message = "Error compiling shader: " + to_string(err);

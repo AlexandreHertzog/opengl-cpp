@@ -37,7 +37,7 @@ class gl_mock_t : public opengl_cpp::gl_t {
     MOCK_METHOD(int, get_parameter, (const program_t &p, program_parameter_t param), (override));
     MOCK_METHOD(int, get_parameter, (const shader_t &s, shader_parameter_t param), (override));
     MOCK_METHOD(int, get_uniform_location, (const program_t &p, const char *name), (override));
-    MOCK_METHOD(void, link, (const program_t &p), (override));
+    MOCK_METHOD(error_t, link, (const program_t &p), (override));
     MOCK_METHOD(void, polygon_mode, (polygon_mode_t mode), (override));
     MOCK_METHOD(void, set_sources, (const shader_t &s, size_t num_sources, const char **sources), (override));
     MOCK_METHOD(void, set_image, (size_t width, size_t height, texture_format_t format, const unsigned char *data),
